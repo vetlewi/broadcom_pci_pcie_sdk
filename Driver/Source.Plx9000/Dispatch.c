@@ -273,12 +273,21 @@ Dispatch_mmap(
      **********************************************************/
 
     // Set the region as page-locked
-    vma->vm_flags |= VM_RESERVED;
+    #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
+        vma_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
+    #else
+        vma->vm_flags |= VM_RESERVED;
+    #endif // LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
+    
 
     if (bDeviceMem)
     {
         // Set flag for I/O resource
-        vma->vm_flags |= VM_IO;
+        #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
+            vma_flags_set(vma, VM_IO);
+        #else
+            vma->vm_flags |= VM_IO;
+        #endif // LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
 
         // Set caching based on BAR properties
         if (pdx->PciBar[offset].Properties.Flags & PLX_BAR_FLAG_PREFETCHABLE)

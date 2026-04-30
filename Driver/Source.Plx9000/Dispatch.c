@@ -274,7 +274,7 @@ Dispatch_mmap(
 
     // Set the region as page-locked
     #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
-        vma_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
+        vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
     #else
         vma->vm_flags |= VM_RESERVED;
     #endif // LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
@@ -284,7 +284,7 @@ Dispatch_mmap(
     {
         // Set flag for I/O resource
         #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)
-            vma_flags_set(vma, VM_IO);
+            vm_flags_set(vma, VM_IO);
         #else
             vma->vm_flags |= VM_IO;
         #endif // LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0)

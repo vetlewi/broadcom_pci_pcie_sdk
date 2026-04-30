@@ -436,8 +436,28 @@
                     (vmas)                              \
                     )                                   \
             )
+#elif LINUX_VERSION_CODE < KERNEL_VERSION(6,5,0)
+    #define Plx_get_user_pages(start, nr_pages, gup_flags, pages, vmas) \
+            (                                           \
+                get_user_pages(                         \
+                    (start),                            \
+                    (nr_pages),                         \
+                    (gup_flags),                        \
+                    (pages),                            \
+                    (vmas)                              \
+                    )                                   \
+            )
 #else
-    #define Plx_get_user_pages          get_user_pages
+    //For Kernels >= 6.5.0
+    #define Plx_get_user_pages(start, nr_pages, gup_flags, pages, vmas) \
+            (                                           \
+                get_user_pages(                         \
+                    (start),                            \
+                    (nr_pages),                         \
+                    (gup_flags),                        \
+                    (pages)                             \
+                    )                                   \
+            )
 #endif
 
 

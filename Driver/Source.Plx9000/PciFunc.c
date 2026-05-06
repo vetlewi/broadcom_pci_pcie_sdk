@@ -881,7 +881,10 @@ PlxProbeForEcamBase(
     pAcpi_Addr_RSDT = (U8*)PLX_INT_TO_PTR( PHYS_MEM_READ_32( (U32*)(pAddress + 16) ) );
 
     // Map RSDT table
-    Va_RSDT = ioremap_prot( PLX_PTR_TO_INT( pAcpi_Addr_RSDT ), 1024, 0 );
+    #if LINUX_VERSION_CODE >= KERNEL_VERSION(7,0,0)
+        Va_RSDT = ioremap_prot( PLX_PTR_TO_INT( pAcpi_Addr_RSDT ), 1024 );
+    #else
+        Va_RSDT = ioremap_prot( PLX_PTR_TO_INT( pAcpi_Addr_RSDT ), 1024, 0 );
     if (Va_RSDT == NULL)
     {
         goto _Exit_PlxProbeForEcamBase;
@@ -919,7 +922,10 @@ PlxProbeForEcamBase(
         pAddress = (U8*)PLX_INT_TO_PTR( PHYS_MEM_READ_32( (U32*)pEntry ) );
 
         // Map table
-        Va_Table = ioremap_prot( PLX_PTR_TO_INT( pAddress ), 200, 0 );
+        #if LINUX_VERSION_CODE >= KERNEL_VERSION(7,0,0)
+            Va_Table = ioremap_prot( PLX_PTR_TO_INT( pAddress ), 200 );
+        #else
+            Va_Table = ioremap_prot( PLX_PTR_TO_INT( pAddress ), 200, 0 );
         if (Va_Table == NULL)
         {
             goto _Exit_PlxProbeForEcamBase;

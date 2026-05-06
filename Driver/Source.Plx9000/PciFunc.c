@@ -882,7 +882,7 @@ PlxProbeForEcamBase(
 
     // Map RSDT table
     #if LINUX_VERSION_CODE >= KERNEL_VERSION(7,0,0)
-        Va_RSDT = ioremap_prot( PLX_PTR_TO_INT( pAcpi_Addr_RSDT ), 1024 );
+        Va_RSDT = ioremap( PLX_PTR_TO_INT( pAcpi_Addr_RSDT ), 1024 );
     #else
         Va_RSDT = ioremap_prot( PLX_PTR_TO_INT( pAcpi_Addr_RSDT ), 1024, 0 );
     #endif // LINUX_VERSION_CODE >= KERNEL_VERSION(7,0,0)
@@ -924,7 +924,7 @@ PlxProbeForEcamBase(
 
         // Map table
         #if LINUX_VERSION_CODE >= KERNEL_VERSION(7,0,0)
-            Va_Table = ioremap_prot( PLX_PTR_TO_INT( pAddress ), 200 );
+            Va_Table = ioremap( PLX_PTR_TO_INT( pAddress ), 200 );
         #else
             Va_Table = ioremap_prot( PLX_PTR_TO_INT( pAddress ), 200, 0 );
         #endif // LINUX_VERSION_CODE >= KERNEL_VERSION(7,0,0)
